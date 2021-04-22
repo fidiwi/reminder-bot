@@ -13,9 +13,8 @@ bot = commands.Bot(command_prefix='*')
 async def on_ready():
     print(f'{bot.user} has connected to Discord!')
 
-@bot.command()
+@bot.command(name="lol", help="Nur son Test-Command")
 async def lol(ctx, arg):
-    print(arg, " hi")
     await ctx.send(arg)
 
 bot.run(TOKEN)
