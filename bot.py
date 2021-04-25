@@ -7,7 +7,7 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
-
+sessions = {}
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -20,6 +20,18 @@ async def on_ready():
 
 @bot.command(name="wheel", help="Drehe das Glücksrad!")
 async def wheel(ctx, *args):
-    await wheelCommand.onCommand(ctx, args)
+    global sessions
+    wheelObject = wheelCommand.Wheel(args, ctx)
+    sessions[ctx.channel] = wheelObject
+    await wheelObject.start()
+
+
+@bot.command(name="spin", help="Drehe am Glücksrad!")
+async def spin(ctx, *args):
+    global sessions
+    if sessions[ctx.channel]:
+        finished = await sessions[ctx.channel].pick()
+        if finished:
+            del sessions[ctx.channel]            
 
 bot.run(TOKEN)
