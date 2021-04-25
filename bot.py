@@ -32,6 +32,17 @@ async def spin(ctx, *args):
     if sessions[ctx.channel]:
         finished = await sessions[ctx.channel].pick()
         if finished:
-            del sessions[ctx.channel]            
+            del sessions[ctx.channel]
+        else:
+            await ctx.send(":x: Aktuell läuft keine Glücksradsession")
+
+@bot.command(name="cancel", aliases=["c", "stop"], help="Bricht Glücksradsession ab")        
+async def cancel(ctx, *args):
+    global sessions
+    if sessions[ctx.channel]:
+        del sessions[ctx.channel]
+        await ctx.send(":white_check_mark: Session erfolgreich abgebrochen")
+    else:
+        await ctx.send(":x: Aktuell läuft keine Glücksradsession")
 
 bot.run(TOKEN)
