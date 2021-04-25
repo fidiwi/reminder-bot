@@ -32,7 +32,7 @@ class Wheel():
     async def pick(self): 
         # Wähle einen Eintrag aus der List und entferne ihn
         # Rückgabe True, wenn nicht beendet
-        await self.ctx.send("Drehe...")
+        await self.ctx.send(":arrows_counterclockwise: Drehe...")
 
         members_left = len(self.channel_members)
         rand_int = random.randint(0, members_left-1)
@@ -47,7 +47,7 @@ class Wheel():
             embed = discord.Embed(colour=self.channel_members[0].color)
             embed.set_author(name=self.channel_members[0].display_name, icon_url=self.channel_members[0].avatar_url)
             await self.ctx.send(embed=embed)
-            await self.ctx.send("Glücksrad beendet :white_check_mark:")
+            await self.ctx.send(":white_check_mark: Glücksrad beendet")
             self.channel_members[0].pop()
 
             return True
