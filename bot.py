@@ -18,7 +18,7 @@ bot = commands.Bot(command_prefix='.')
 async def on_ready():
     print(f'{bot.user} has connected to Discord!')
 
-@bot.command(name="wheel", help="Drehe das Glücksrad!")
+@bot.command(name="wheel", help="Erstelle ein Glücksrad!")
 async def wheel(ctx, *args):
     global sessions
     wheelObject = wheelCommand.Wheel(args, ctx)
@@ -29,17 +29,17 @@ async def wheel(ctx, *args):
 @bot.command(name="spin", help="Drehe am Glücksrad!")
 async def spin(ctx, *args):
     global sessions
-    if sessions[ctx.channel]:
+    if ctx.channel in sessions.keys():
         finished = await sessions[ctx.channel].pick()
         if finished:
             del sessions[ctx.channel]
-        else:
-            await ctx.send(":x: Aktuell läuft keine Glücksradsession")
+    else:
+        await ctx.send(":x: Aktuell läuft keine Glücksradsession")
 
 @bot.command(name="cancel", aliases=["c", "stop"], help="Bricht Glücksradsession ab")        
 async def cancel(ctx, *args):
     global sessions
-    if sessions[ctx.channel]:
+    if ctx.channel in sessions.keys():
         del sessions[ctx.channel]
         await ctx.send(":white_check_mark: Session erfolgreich abgebrochen")
     else:
