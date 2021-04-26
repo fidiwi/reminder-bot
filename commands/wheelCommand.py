@@ -55,3 +55,4 @@ class Wheel():
             await self.ctx.send("Drehe für die nächste Person!")
             
             return False
+            
