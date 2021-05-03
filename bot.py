@@ -22,25 +22,25 @@ async def on_ready():
 async def wheel(ctx, *args):
     global sessions
     wheelObject = wheelCommand.Wheel(args, ctx)
-    sessions[ctx.channel] = wheelObject
-    await wheelObject.start()
+    if await wheelObject.start():
+        sessions[ctx.author.voice.channel] = wheelObject
 
 
 @bot.command(name="spin", help="Drehe am Glücksrad!")
 async def spin(ctx, *args):
     global sessions
-    if ctx.channel in sessions.keys():
-        finished = await sessions[ctx.channel].pick()
+    if ctx.author.voice.channel in sessions.keys():
+        finished = await sessions[ctx.author.voice.channel].pick(ctx)
         if finished:
-            del sessions[ctx.channel]
+            del sessions[ctx.author.voice.channel]
     else:
         await ctx.send(":x: Aktuell läuft keine Glücksradsession")
 
 @bot.command(name="cancel", aliases=["c", "stop"], help="Bricht Glücksradsession ab")        
 async def cancel(ctx, *args):
     global sessions
-    if ctx.channel in sessions.keys():
-        del sessions[ctx.channel]
+    if ctx.author.voice.channel in sessions.keys():
+        del sessions[ctx.author.voice.channel]
         await ctx.send(":white_check_mark: Session erfolgreich abgebrochen")
     else:
         await ctx.send(":x: Aktuell läuft keine Glücksradsession")
