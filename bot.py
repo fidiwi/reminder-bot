@@ -36,6 +36,17 @@ async def spin(ctx, *args):
     else:
         await ctx.send(":x: Aktuell läuft keine Glücksradsession")
 
+
+@bot.command(name="group", help="Bildet x viele Gruppen mit Angehörigen des Voicechannels")
+async def group(ctx, *args):
+    if len(args) >= 1: 
+        wheelObject = wheelCommand.Wheel([], ctx)
+        if await wheelObject.start():
+            await wheelObject.group(int(*args[0]))
+    else:
+        await ctx.send(":x: **Bitte gib an, wie viele Gruppen du haben möchtest**")
+
+
 @bot.command(name="cancel", aliases=["c", "stop"], help="Bricht Glücksradsession ab")        
 async def cancel(ctx, *args):
     global sessions
@@ -44,5 +55,6 @@ async def cancel(ctx, *args):
         await ctx.send(":white_check_mark: Session erfolgreich abgebrochen")
     else:
         await ctx.send(":x: Aktuell läuft keine Glücksradsession")
+
 
 bot.run(TOKEN)
