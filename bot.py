@@ -4,7 +4,7 @@ import os
 from commands import wheelCommand
 
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 from dotenv import load_dotenv
 from tasks import loop
 import requests
