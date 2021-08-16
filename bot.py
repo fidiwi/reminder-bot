@@ -4,9 +4,9 @@ import os
 from commands import wheelCommand
 
 import discord
-from discord.ext import commands, tasks
+from discord.ext import commands
 from dotenv import load_dotenv
-from tasks import loop
+from discord.ext.tasks import loop
 import requests
 
 sessions = {}
