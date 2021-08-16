@@ -6,6 +6,7 @@ from commands import wheelCommand
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
+import requests
 
 sessions = {}
 
@@ -17,6 +18,7 @@ bot = commands.Bot(command_prefix='.')
 @bot.event
 async def on_ready():
     print(f'{bot.user} has connected to Discord!')
+    listenMinecraft.start()
 
 @bot.command(name="wheel", help="Erstelle ein Glücksrad!")
 async def wheel(ctx, *args):
@@ -55,6 +57,15 @@ async def cancel(ctx, *args):
         await ctx.send(":white_check_mark: Session erfolgreich abgebrochen")
     else:
         await ctx.send(":x: Aktuell läuft keine Glücksradsession")
+
+@loop(seconds=60)
+async def listenMinecraft():
+    data = requests.get("https://api.mcsrvstat.us/2/blattgruen.eu")
+    data_json = data.json()
+    if data_json["debug"]["ping"]:
+        await bot.change_presence(activity=discord.Game(name=f'{data_json["players"]["online"]}/{data_json["players"]["max"]}'))
+    else:
+        await bot.change_presence(activity=discord.Game(name="MC offline"))
 
 
 bot.run(TOKEN)
