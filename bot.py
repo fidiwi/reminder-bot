@@ -2,6 +2,7 @@ import os
 
 # Import command classes
 from commands import wheelCommand
+from commands import citeCommand
 
 import discord
 from discord.ext import commands
@@ -58,6 +59,10 @@ async def cancel(ctx, *args):
         await ctx.send(":white_check_mark: Session erfolgreich abgebrochen")
     else:
         await ctx.send(":x: Aktuell läuft keine Glücksradsession")
+
+@bot.command(name="fetchcites", help="Überträgt alle Zitate in GoogleSlides-Sheet")
+async def fetchcites(ctx, *args):
+    citeCommand.fetchAllData(ctx)
 
 @loop(seconds=60)
 async def listenMinecraft():
